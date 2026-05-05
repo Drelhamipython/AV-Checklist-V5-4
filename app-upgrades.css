@@ -1,0 +1,141 @@
+.av-upgrade-tools {
+  position: fixed;
+  left: 16px;
+  bottom: calc(86px + env(safe-area-inset-bottom));
+  z-index: 23;
+  display: grid;
+  gap: 8px;
+}
+
+.av-tool-button,
+.av-status-chip {
+  border: 1px solid rgba(15, 23, 42, .12);
+  border-radius: 16px;
+  background: #ffffff;
+  color: #111827;
+  box-shadow: 0 14px 32px rgba(15, 23, 42, .16);
+  font-weight: 900;
+}
+
+.av-tool-button {
+  min-width: 74px;
+  padding: 11px 12px;
+  cursor: pointer;
+}
+
+.av-status-chip {
+  padding: 7px 10px;
+  font-size: 11px;
+  text-align: center;
+}
+
+.av-status-chip.offline {
+  background: #fff7ed;
+  color: #9a3412;
+  border-color: #fed7aa;
+}
+
+.av-status-chip.ready {
+  background: #ecfdf5;
+  color: #047857;
+  border-color: #a7f3d0;
+}
+
+.av-tools-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.av-tool-action {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 12px 10px;
+  background: #f8fafc;
+  color: #111827;
+  font-weight: 900;
+  text-align: left;
+}
+
+.av-tool-action.primary {
+  background: #020617;
+  color: #fff;
+}
+
+.av-dashboard {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin: 10px 0 14px;
+}
+
+.av-metric {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #f9fafb;
+  padding: 10px;
+  min-width: 0;
+}
+
+.av-metric b {
+  display: block;
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.av-metric span {
+  display: block;
+  font-size: 18px;
+  font-weight: 1000;
+  margin-top: 3px;
+}
+
+.av-search-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.av-result {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 10px;
+  background: #fff;
+}
+
+.av-result strong {
+  display: block;
+  font-size: 13px;
+}
+
+.av-result span {
+  color: var(--muted);
+  display: block;
+  font-size: 11px;
+  line-height: 1.4;
+  margin-top: 3px;
+}
+
+.av-result button {
+  margin-top: 8px;
+}
+
+.av-file-input {
+  position: absolute;
+  left: -9999px;
+}
+
+@media (max-width: 520px) {
+  .av-upgrade-tools {
+    left: 10px;
+    bottom: calc(112px + env(safe-area-inset-bottom));
+  }
+
+  .av-dashboard {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

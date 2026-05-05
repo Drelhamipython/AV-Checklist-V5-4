@@ -1,2 +1,83 @@
-self.addEventListener('install', e => self.skipWaiting());
-self.addEventListener('activate', e => e.waitUntil(caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k)))).then(() => self.clients.claim())));
+const CACHE_VERSION = 'amin-field-v6-2026-05-05';
+const APP_SHELL = [
+  './',
+  './index.html',
+  './manifest.json',
+  './app-upgrades.css',
+  './app-upgrades.js',
+  './icons/icon-192.png',
+  './icons/icon-512.png'
+];
+const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
+
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(CACHE_VERSION)
+      .then(cache => cache.addAll(APP_SHELL))
+      .then(() => self.skipWaiting())
+  );
+});
+
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys()
+      .then(keys => Promise.all(
+        keys
+          .filter(key => key !== CACHE_VERSION && key !== RUNTIME_CACHE)
+          .map(key => caches.delete(key))
+      ))
+      .then(() => self.clients.claim())
+  );
+});
+
+self.addEventListener('message', event => {
+  if (event.data && event.data.type === 'SKIP_WAITING') self.skipWaiting();
+});
+
+self.addEventListener('fetch', event => {
+  const request = event.request;
+  if (request.method !== 'GET') return;
+
+  const url = new URL(request.url);
+  const isNavigation = request.mode === 'navigate';
+  const isSameOrigin = url.origin === self.location.origin;
+  const isRuntimeLibrary = url.hostname === 'cdn.jsdelivr.net';
+
+  if (isNavigation) {
+    event.respondWith(
+      fetch(request)
+        .then(response => {
+          const copy = response.clone();
+          caches.open(CACHE_VERSION).then(cache => cache.put('./index.html', copy));
+          return response;
+        })
+        .catch(() => caches.match('./index.html'))
+    );
+    return;
+  }
+
+  if (isSameOrigin) {
+    event.respondWith(
+      caches.match(request)
+        .then(cached => cached || fetch(request).then(response => {
+          const copy = response.clone();
+          caches.open(CACHE_VERSION).then(cache => cache.put(request, copy));
+          return response;
+        }))
+    );
+    return;
+  }
+
+  if (isRuntimeLibrary) {
+    event.respondWith(
+      caches.open(RUNTIME_CACHE).then(cache =>
+        cache.match(request).then(cached =>
+          cached || fetch(request).then(response => {
+            cache.put(request, response.clone());
+            return response;
+          })
+        )
+      )
+    );
+  }
+});
