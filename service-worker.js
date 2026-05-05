@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'amin-field-v6-2026-05-05';
+const CACHE_VERSION = 'amin-field-v6-2026-05-05-no-fab';
 const APP_SHELL = [
   './',
   './index.html',
