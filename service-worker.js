@@ -1,10 +1,12 @@
-const CACHE_VERSION = 'amin-field-v6-2026-05-05-no-fab';
+const CACHE_VERSION = 'amin-field-v6-2026-05-05-logo-icon';
 const APP_SHELL = [
   './',
   './index.html',
   './manifest.json',
   './app-upgrades.css',
   './app-upgrades.js',
+  './icons/apple-touch-icon.png',
+  './icons/apple-touch-icon-180.png',
   './icons/icon-192.png',
   './icons/icon-512.png'
 ];
