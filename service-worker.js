@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'amin-field-v6-2026-05-05-logo-icon';
+const CACHE_VERSION = 'amin-field-v6-2026-05-10-pdf-button-fix';
 const APP_SHELL = [
   './',
   './index.html',
